@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR MAKHETHA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 56px);
+        }
+        .sidebar .nav-link {
+            color: #333;
+            padding: 12px 20px;
+            margin: 2px 0;
+            border-radius: 5px;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: #28a745;
+            color: white;
+        }
+        .stats-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+        .exam-card {
+            border-left: 4px solid #28a745;
+        }
+        .border-left-primary { border-left: 4px solid #4e73df !important; }
+        .border-left-success { border-left: 4px solid #1cc88a !important; }
+        .border-left-warning { border-left: 4px solid #f6c23e !important; }
+        .border-left-info { border-left: 4px solid #36b9cc !important; }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .question-item {
+            border: 1px solid #e3e6f0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .question-editor {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+        }
+        .option-input-group {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> Exam System
+            </a>
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i> Dr. Sarah Examiner
+                    </a>
+                    <a class="nav-link" href="student.html">Student</a>
+                    <a class="nav-link" href="admin.html">Admin</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showTab('profile')">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="index.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 sidebar d-md-block">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showTab('dashboard')">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('create_exam')">
+                                <i class="fas fa-plus-circle me-2"></i>Create Exam
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('manage_exams')">
+                                <i class="fas fa-clipboard-list me-2"></i>Manage Exams
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('manage_questions')">
+                                <i class="fas fa-question-circle me-2"></i>Manage Questions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('evaluate_marks')">
+                                <i class="fas fa-check-double me-2"></i>Evaluate Marks
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Examiner Dashboard</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm btn-outline-success">Export Reports</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stats-card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Active Exams
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stats-card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Total Questions
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">245</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-question-circle fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stats-card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Students Enrolled
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">156</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stats-card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Pending Evaluations
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-tasks fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Exams -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-primary">Recent Exams</h6>
+                                    <button class="btn btn-sm btn-success" onclick="showTab('manage_exams')">Manage All Exams</button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Exam Name</th>
+                                                    <th>Subject</th>
+                                                    <th>Date Created</th>
+                                                    <th>Students Attempted</th>
+                                                    <th>Average Score</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Web Design Final Exam</td>
+                                                    <td>Web Design</td>
+                                                    <td>2024-01-10</td>
+                                                    <td>45/156</td>
+                                                    <td>78%</td>
+                                                    <td><span class="badge bg-success">Active</span></td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-sm btn-outline-primary" onclick="viewExam('EXM001')">View</button>
+                                                            <button class="btn btn-sm btn-outline-warning" onclick="editExam('EXM001')">Edit</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Database Midterm</td>
+                                                    <td>Database Systems</td>
+                                                    <td>2024-01-08</td>
+                                                    <td>38/156</td>
+                                                    <td>72%</td>
+                                                    <td><span class="badge bg-success">Active</span></td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-sm btn-outline-primary" onclick="viewExam('EXM002')">View</button>
+                                                            <button class="btn btn-sm btn-outline-warning" onclick="editExam('EXM002')">Edit</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Programming Basics Quiz</td>
+                                                    <td>Programming</td>
+                                                    <td>2024-01-05</td>
+                                                    <td>42/156</td>
+                                                    <td>65%</td>
+                                                    <td><span class="badge bg-success">Active</span></td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-sm btn-outline-primary" onclick="viewExam('EXM003')">View</button>
+                                                            <button class="btn btn-sm btn-outline-warning" onclick="editExam('EXM003')">Edit</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Networks Assessment</td>
+                                                    <td>Computer Networks</td>
+                                                    <td>2024-01-03</td>
+                                                    <td>156/156</td>
+                                                    <td>82%</td>
+                                                    <td><span class="badge bg-secondary">Completed</span></td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-sm btn-outline-primary" onclick="viewExam('EXM004')">View</button>
+                                                            <button class="btn btn-sm btn-outline-info">Results</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3 text-center">
+                                            <button class="btn btn-success btn-lg p-3 w-100" onclick="showTab('create_exam')">
+                                                <i class="fas fa-plus-circle fa-2x mb-2"></i><br>
+                                                Create New Exam
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 mb-3 text-center">
+                                            <button class="btn btn-primary btn-lg p-3 w-100" onclick="showTab('manage_questions')">
+                                                <i class="fas fa-question-circle fa-2x mb-2"></i><br>
+                                                Manage Questions
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 mb-3 text-center">
+                                            <button class="btn btn-warning btn-lg p-3 w-100" onclick="showTab('evaluate_marks')">
+                                                <i class="fas fa-chart-bar fa-2x mb-2"></i><br>
+                                                Evaluate Marks
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 mb-3 text-center">
+                                            <button class="btn btn-info btn-lg p-3 w-100">
+                                                <i class="fas fa-download fa-2x mb-2"></i><br>
+                                                Export Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create Exam Tab -->
+                <div id="create_exam" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Create New Exam</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="saveExamDraft()">Save Draft</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card shadow mb-4">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Exam Details</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="examForm">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Exam Title</label>
+                                                <input type="text" class="form-control" id="examTitle" placeholder="Enter exam title" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Subject</label>
+                                                <select class="form-select" id="examSubject" required>
+                                                    <option value="">Select Subject</option>
+                                                    <option>Web Design</option>
+                                                    <option>Database Systems</option>
+                                                    <option>Programming</option>
+                                                    <option>Computer Networks</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Exam Date</label>
+                                                <input type="date" class="form-control" id="examDate" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Exam Time</label>
+                                                <input type="time" class="form-control" id="examTime" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Duration (minutes)</label>
+                                                <input type="number" class="form-control" id="examDuration" placeholder="120" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Total Marks</label>
+                                                <input type="number" class="form-control" id="totalMarks" placeholder="100" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Instructions</label>
+                                            <textarea class="form-control" id="examInstructions" rows="3" placeholder="Enter exam instructions"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card shadow">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Exam Questions</h5>
+                                    <button class="btn btn-sm btn-success" onclick="addNewQuestion()">Add Question</button>
+                                </div>
+                                <div class="card-body" id="questionsContainer">
+                                    <div class="question-item">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h6>Question 1</h6>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editQuestion(this)">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteQuestion(this)">Delete</button>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2">What does HTML stand for?</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q1">
+                                            <label class="form-check-label">Hyper Text Markup Language</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q1">
+                                            <label class="form-check-label">High Tech Modern Language</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q1">
+                                            <label class="form-check-label">Hyper Transfer Markup Language</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="question-item">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h6>Question 2</h6>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editQuestion(this)">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteQuestion(this)">Delete</button>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2">Which CSS property is used to change the text color?</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q2">
+                                            <label class="form-check-label">text-color</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q2">
+                                            <label class="form-check-label">font-color</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q2">
+                                            <label class="form-check-label">color</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Exam Settings</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="shuffleQuestions" checked>
+                                            <label class="form-check-label">Shuffle Questions</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="showResults">
+                                            <label class="form-check-label">Show Results Immediately</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="allowRetakes" checked>
+                                            <label class="form-check-label">Allow Retakes</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="strictTimeLimit">
+                                            <label class="form-check-label">Time Limit Strict</label>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success" onclick="publishExam()">Publish Exam</button>
+                                        <button class="btn btn-outline-secondary" onclick="saveExamDraft()">Save as Draft</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Exams Tab -->
+                <div id="manage_exams" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Manage Exams</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <button class="btn btn-sm btn-success" onclick="showTab('create_exam')">
+                                <i class="fas fa-plus me-2"></i>Create New Exam
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">All Exams</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Exam ID</th>
+                                            <th>Exam Name</th>
+                                            <th>Subject</th>
+                                            <th>Date Created</th>
+                                            <th>Status</th>
+                                            <th>Students</th>
+                                            <th>Average Score</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>EXM001</td>
+                                            <td>Web Design Final Exam</td>
+                                            <td>Web Design</td>
+                                            <td>2024-01-10</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>45/156</td>
+                                            <td>78%</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewExam('EXM001')">View</button>
+                                                    <button class="btn btn-sm btn-outline-warning" onclick="editExam('EXM001')">Edit</button>
+                                                    <button class="btn btn-sm btn-outline-info">Results</button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteExam('EXM001')">Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>EXM002</td>
+                                            <td>Database Midterm</td>
+                                            <td>Database Systems</td>
+                                            <td>2024-01-08</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>38/156</td>
+                                            <td>72%</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewExam('EXM002')">View</button>
+                                                    <button class="btn btn-sm btn-outline-warning" onclick="editExam('EXM002')">Edit</button>
+                                                    <button class="btn btn-sm btn-outline-info">Results</button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteExam('EXM002')">Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>EXM003</td>
+                                            <td>Programming Basics Quiz</td>
+                                            <td>Programming</td>
+                                            <td>2024-01-05</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>42/156</td>
+                                            <td>65%</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewExam('EXM003')">View</button>
+                                                    <button class="btn btn-sm btn-outline-warning" onclick="editExam('EXM003')">Edit</button>
+                                                    <button class="btn btn-sm btn-outline-info">Results</button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteExam('EXM003')">Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>EXM004</td>
+                                            <td>Networks Assessment</td>
+                                            <td>Computer Networks</td>
+                                            <td>2024-01-03</td>
+                                            <td><span class="badge bg-secondary">Completed</span></td>
+                                            <td>156/156</td>
+                                            <td>82%</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewExam('EXM004')">View</button>
+                                                    <button class="btn btn-sm btn-outline-info">Results</button>
+                                                    <button class="btn btn-sm btn-outline-danger" onclick="archiveExam('EXM004')">Archive</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Questions Tab -->
+                <div id="manage_questions" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Manage Questions</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <button class="btn btn-sm btn-success" onclick="addNewQuestionToBank()">
+                                <i class="fas fa-plus me-2"></i>Add New Question
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>245</h4>
+                                            <p>Total Questions</p>
+                                        </div>
+                                        <i class="fas fa-question-circle fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>189</h4>
+                                            <p>Multiple Choice</p>
+                                        </div>
+                                        <i class="fas fa-list-ul fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>42</h4>
+                                            <p>True/False</p>
+                                        </div>
+                                        <i class="fas fa-check-circle fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-info">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>14</h4>
+                                            <p>Short Answer</p>
+                                        </div>
+                                        <i class="fas fa-pen fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Question Bank</h5>
+                            <div class="input-group" style="width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search questions...">
+                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Question ID</th>
+                                            <th>Question Text</th>
+                                            <th>Type</th>
+                                            <th>Subject</th>
+                                            <th>Difficulty</th>
+                                            <th>Marks</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Q001</td>
+                                            <td>What does HTML stand for?</td>
+                                            <td><span class="badge bg-primary">Multiple Choice</span></td>
+                                            <td>Web Design</td>
+                                            <td><span class="badge bg-success">Easy</span></td>
+                                            <td>2</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editQuestionInBank('Q001')">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteQuestionFromBank('Q001')">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Q002</td>
+                                            <td>CSS is used for styling web pages.</td>
+                                            <td><span class="badge bg-warning">True/False</span></td>
+                                            <td>Web Design</td>
+                                            <td><span class="badge bg-success">Easy</span></td>
+                                            <td>1</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editQuestionInBank('Q002')">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteQuestionFromBank('Q002')">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Q003</td>
+                                            <td>Explain the concept of foreign key in databases.</td>
+                                            <td><span class="badge bg-info">Short Answer</span></td>
+                                            <td>Database Systems</td>
+                                            <td><span class="badge bg-warning">Medium</span></td>
+                                            <td>5</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="editQuestionInBank('Q003')">Edit</button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteQuestionFromBank('Q003')">Delete</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Evaluate Marks Tab -->
+                <div id="evaluate_marks" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Evaluate Marks</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <button type="button" class="btn btn-sm btn-outline-success">Export Evaluations</button>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Pending Evaluations</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Student Name</th>
+                                            <th>Exam</th>
+                                            <th>Subject</th>
+                                            <th>Submitted Date</th>
+                                            <th>Auto Score</th>
+                                            <th>Manual Score</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>John Smith</td>
+                                            <td>Web Design Final Exam</td>
+                                            <td>Web Design</td>
+                                            <td>2024-01-15</td>
+                                            <td>78/100</td>
+                                            <td>-</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><button class="btn btn-sm btn-primary" onclick="evaluateStudent('John Smith', 'EXM001')">Evaluate</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alice Johnson</td>
+                                            <td>Database Midterm</td>
+                                            <td>Database Systems</td>
+                                            <td>2024-01-14</td>
+                                            <td>65/100</td>
+                                            <td>-</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><button class="btn btn-sm btn-primary" onclick="evaluateStudent('Alice Johnson', 'EXM002')">Evaluate</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mike Wilson</td>
+                                            <td>Programming Basics Quiz</td>
+                                            <td>Programming</td>
+                                            <td>2024-01-13</td>
+                                            <td>82/100</td>
+                                            <td>-</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><button class="btn btn-sm btn-primary" onclick="evaluateStudent('Mike Wilson', 'EXM003')">Evaluate</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h5 class="mb-0">Completed Evaluations</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Student Name</th>
+                                            <th>Exam</th>
+                                            <th>Subject</th>
+                                            <th>Submitted Date</th>
+                                            <th>Final Score</th>
+                                            <th>Grade</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Sarah Brown</td>
+                                            <td>Networks Assessment</td>
+                                            <td>Computer Networks</td>
+                                            <td>2024-01-12</td>
+                                            <td>88/100</td>
+                                            <td>A</td>
+                                            <td><span class="badge bg-success">Completed</span></td>
+                                            <td><button class="btn btn-sm btn-outline-primary" onclick="viewEvaluation('Sarah Brown', 'EXM004')">View</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>David Lee</td>
+                                            <td>Web Design Final Exam</td>
+                                            <td>Web Design</td>
+                                            <td>2024-01-11</td>
+                                            <td>72/100</td>
+                                            <td>B</td>
+                                            <td><span class="badge bg-success">Completed</span></td>
+                                            <td><button class="btn btn-sm btn-outline-primary" onclick="viewEvaluation('David Lee', 'EXM001')">View</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Question Editor Modal -->
+    <div class="modal fade" id="questionEditorModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionEditorTitle">Add New Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="questionForm">
+                        <div class="mb-3">
+                            <label class="form-label">Question Type</label>
+                            <select class="form-select" id="questionType" onchange="toggleQuestionOptions()">
+                                <option value="multiple_choice">Multiple Choice</option>
+                                <option value="true_false">True/False</option>
+                                <option value="short_answer">Short Answer</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Question Text</label>
+                            <textarea class="form-control" id="questionText" rows="3" placeholder="Enter your question here..."></textarea>
+                        </div>
+                        <div class="mb-3" id="optionsContainer">
+                            <label class="form-label">Options</label>
+                            <div class="option-input-group">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="radio" name="correctOption" value="0">
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Option 1">
+                                </div>
+                            </div>
+                            <div class="option-input-group">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="radio" name="correctOption" value="1">
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Option 2">
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addOption()">Add Option</button>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Marks</label>
+                            <input type="number" class="form-control" id="questionMarks" value="1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Explanation (Optional)</label>
+                            <textarea class="form-control" id="questionExplanation" rows="2" placeholder="Add explanation for the correct answer..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveQuestion()">Save Question</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Exam Management Functions
+        function viewExam(examId) {
+            alert(`Viewing exam: ${examId}\nThis would show detailed exam information and student results.`);
+            // In a real application, this would load exam details
+        }
+
+        function editExam(examId) {
+            alert(`Editing exam: ${examId}\nRedirecting to exam editor...`);
+            showTab('create_exam');
+            // In a real application, this would load the exam data into the form
+            document.getElementById('examTitle').value = "Web Design Final Exam";
+            document.getElementById('examSubject').value = "Web Design";
+            document.getElementById('examDate').value = "2024-01-10";
+            document.getElementById('examTime').value = "10:00";
+            document.getElementById('examDuration').value = "120";
+            document.getElementById('totalMarks').value = "100";
+        }
+
+        function deleteExam(examId) {
+            if (confirm(`Are you sure you want to delete exam ${examId}? This action cannot be undone.`)) {
+                alert(`Exam ${examId} deleted successfully!`);
+                // In a real application, this would make an API call to delete the exam
+            }
+        }
+
+        function archiveExam(examId) {
+            if (confirm(`Are you sure you want to archive exam ${examId}?`)) {
+                alert(`Exam ${examId} archived successfully!`);
+                // In a real application, this would update the exam status to archived
+            }
+        }
+
+        // Exam Creation Functions
+        function saveExamDraft() {
+            const examTitle = document.getElementById('examTitle').value;
+            if (!examTitle) {
+                alert('Please enter an exam title before saving.');
+                return;
+            }
+            alert(`Exam "${examTitle}" saved as draft successfully!`);
+            // In a real application, this would save to database
+        }
+
+        function publishExam() {
+            const examTitle = document.getElementById('examTitle').value;
+            if (!examTitle) {
+                alert('Please enter an exam title before publishing.');
+                return;
+            }
+            if (confirm(`Are you sure you want to publish "${examTitle}"? This will make it available to students.`)) {
+                alert(`Exam "${examTitle}" published successfully!`);
+                // In a real application, this would update exam status to published
+            }
+        }
+
+        // Question Management Functions
+        function addNewQuestion() {
+            document.getElementById('questionEditorTitle').textContent = 'Add New Question';
+            document.getElementById('questionForm').reset();
+            const modal = new bootstrap.Modal(document.getElementById('questionEditorModal'));
+            modal.show();
+        }
+
+        function editQuestion(button) {
+            const questionItem = button.closest('.question-item');
+            const questionText = questionItem.querySelector('p').textContent;
+            
+            document.getElementById('questionEditorTitle').textContent = 'Edit Question';
+            document.getElementById('questionText').value = questionText;
+            
+            const modal = new bootstrap.Modal(document.getElementById('questionEditorModal'));
+            modal.show();
+        }
+
+        function deleteQuestion(button) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                const questionItem = button.closest('.question-item');
+                questionItem.remove();
+                alert('Question deleted successfully!');
+            }
+        }
+
+        function addNewQuestionToBank() {
+            alert('Opening question bank editor...');
+            addNewQuestion();
+        }
+
+        function editQuestionInBank(questionId) {
+            alert(`Editing question ${questionId} in question bank...`);
+            // In a real application, this would load the question data
+        }
+
+        function deleteQuestionFromBank(questionId) {
+            if (confirm(`Are you sure you want to delete question ${questionId} from the question bank?`)) {
+                alert(`Question ${questionId} deleted from question bank!`);
+                // In a real application, this would remove from database
+            }
+        }
+
+        // Question Editor Functions
+        function toggleQuestionOptions() {
+            const questionType = document.getElementById('questionType').value;
+            const optionsContainer = document.getElementById('optionsContainer');
+            
+            if (questionType === 'short_answer') {
+                optionsContainer.style.display = 'none';
+            } else {
+                optionsContainer.style.display = 'block';
+            }
+        }
+
+        function addOption() {
+            const optionsContainer = document.getElementById('optionsContainer');
+            const optionCount = optionsContainer.querySelectorAll('.option-input-group').length;
+            
+            const newOption = document.createElement('div');
+            newOption.className = 'option-input-group';
+            newOption.innerHTML = `
+                <div class="input-group mb-2">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" name="correctOption" value="${optionCount}">
+                    </div>
+                    <input type="text" class="form-control" placeholder="Option ${optionCount + 1}">
+                </div>
+            `;
+            
+            optionsContainer.appendChild(newOption);
+        }
+
+        function saveQuestion() {
+            const questionText = document.getElementById('questionText').value;
+            if (!questionText) {
+                alert('Please enter question text.');
+                return;
+            }
+            
+            alert('Question saved successfully!');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('questionEditorModal'));
+            modal.hide();
+            
+            // In a real application, this would save to database and refresh the question list
+        }
+
+        // Evaluation Functions
+        function evaluateStudent(studentName, examId) {
+            alert(`Evaluating ${studentName}'s submission for exam ${examId}\nOpening evaluation interface...`);
+            // In a real application, this would open an evaluation panel
+        }
+
+        function viewEvaluation(studentName, examId) {
+            alert(`Viewing evaluation details for ${studentName} - Exam ${examId}`);
+            // In a real application, this would show detailed evaluation
+        }
+
+        // Tab Navigation
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+
+            const navLinks = document.querySelectorAll('.sidebar .nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick') === `showTab('${tabName}')`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('dashboard');
+        });
+    </script>
+</body>
+</html>

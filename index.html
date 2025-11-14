@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR MAKHETHA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+        }
+        .feature-card {
+            transition: transform 0.3s;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .btn-custom {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #000;
+            font-weight: 600;
+        }
+        .btn-custom:hover {
+            background-color: #e0a800;
+            border-color: #e0a800;
+            color: #000;
+        }
+        .modal-content {
+            border-radius: 10px;
+            border: none;
+        }
+        .login-tabs .nav-link {
+            color: #6c757d;
+            font-weight: 500;
+        }
+        .login-tabs .nav-link.active {
+            color: #0d6efd;
+            border-bottom: 3px solid #0d6efd;
+        }
+        .student-info {
+            background: #e7f3ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0d6efd;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> Exam System
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#studentRegisterModal">Register</a>
+                    <a class="nav-link" href="admin.html">Admin</a>
+                    <a class="nav-link" href="examiner.html">Examiner</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Online Examination System</h1>
+                    <p class="lead mb-4">A comprehensive platform for conducting online exams, managing questions, and evaluating student performance efficiently.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="btn btn-custom btn-lg" data-bs-toggle="modal" data-bs-target="#studentRegisterModal">Get Started</a>
+                        <a href="#" class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <i class="fas fa-laptop-code fa-10x text-white-50"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="card feature-card h-100 text-center">
+                        <div class="card-body p-4">
+                            <i class="fas fa-user-graduate fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">For Students</h5>
+                            <p class="card-text">Take exams online, view results instantly, and track your academic progress with detailed analytics.</p>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="fas fa-check text-success me-2"></i> Online exam participation</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Instant result viewing</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Progress tracking</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Easy registration</li>
+                            </ul>
+                            <a href="student.html" class="btn btn-primary mt-3">Student Portal</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card feature-card h-100 text-center">
+                        <div class="card-body p-4">
+                            <i class="fas fa-chalkboard-teacher fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">For Examiners</h5>
+                            <p class="card-text">Create and manage exams, set questions, and evaluate student performance with comprehensive tools.</p>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="fas fa-check text-success me-2"></i> Exam creation & management</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Question bank management</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Performance analytics</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Automated grading</li>
+                            </ul>
+                            <a href="examiner.html" class="btn btn-success mt-3">Examiner Portal</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card feature-card h-100 text-center">
+                        <div class="card-body p-4">
+                            <i class="fas fa-user-shield fa-3x text-warning mb-3"></i>
+                            <h5 class="card-title">For Administrators</h5>
+                            <p class="card-text">Oversee the entire system, manage users, subjects, and ensure smooth operation of all examinations.</p>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="fas fa-check text-success me-2"></i> User management</li>
+                                <li><i class="fas fa-check text-success me-2"></i> System oversight</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Comprehensive reporting</li>
+                                <li><i class="fas fa-check text-success me-2"></i> Security monitoring</li>
+                            </ul>
+                            <a href="admin.html" class="btn btn-warning mt-3">Admin Portal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 mb-4">
+                    <div class="h2 text-primary fw-bold">1,248+</div>
+                    <p class="text-muted">Registered Students</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="h2 text-success fw-bold">42+</div>
+                    <p class="text-muted">Active Examiners</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="h2 text-warning fw-bold">500+</div>
+                    <p class="text-muted">Exams Conducted</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="h2 text-info fw-bold">99.8%</div>
+                    <p class="text-muted">System Uptime</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-graduation-cap me-2"></i>Online Examination System</h5>
+                    <p class="mb-0">Empowering education through technology</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">&copy; 2024 MR MAKHETHA. All rights reserved.</p>
+                    <p class="mb-0">Limkokwing University of Creative Technology</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login to Exam System</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs login-tabs mb-4">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#studentLogin">Student</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#examinerLogin">Examiner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#adminLogin">Admin</a>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content">
+                        <!-- Student Login -->
+                        <div class="tab-pane fade show active" id="studentLogin">
+                            <div class="student-info">
+                                <h6><i class="fas fa-info-circle me-2"></i>Authorized Student Access</h6>
+                                <p class="mb-1"><strong>Name:</strong> Tebello Mokhahlane</p>
+                                <p class="mb-1"><strong>Student ID:</strong> STU2024001</p>
+                                <p class="mb-0"><strong>Password:</strong> Tebello@2024</p>
+                            </div>
+                            <form id="studentLoginForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Student ID</label>
+                                    <input type="text" class="form-control" id="studentIdInput" placeholder="Enter STU2024001" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="studentPasswordInput" placeholder="Enter Tebello@2024" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberStudent">
+                                    <label class="form-check-label" for="rememberStudent">Remember me</label>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary" onclick="loginAsStudent()">Login as Student</button>
+                                </div>
+                            </form>
+                            <div class="text-center mt-3">
+                                <p class="mb-0">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#studentRegisterModal" data-bs-dismiss="modal">Register here</a></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Examiner Login -->
+                        <div class="tab-pane fade" id="examinerLogin">
+                            <form id="examinerLoginForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Examiner ID</label>
+                                    <input type="text" class="form-control" placeholder="Enter your examiner ID" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter your password" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberExaminer">
+                                    <label class="form-check-label" for="rememberExaminer">Remember me</label>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success" onclick="loginAsExaminer()">Login as Examiner</button>
+                                </div>
+                            </form>
+                            <div class="text-center mt-3">
+                                <p class="mb-0">Contact administrator for examiner account</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Admin Login -->
+                        <div class="tab-pane fade" id="adminLogin">
+                            <form id="adminLoginForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Admin Username</label>
+                                    <input type="text" class="form-control" placeholder="Enter admin username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter admin password" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberAdmin">
+                                    <label class="form-check-label" for="rememberAdmin">Remember me</label>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-warning" onclick="loginAsAdmin()">Login as Admin</button>
+                                </div>
+                            </form>
+                            <div class="text-center mt-3">
+                                <p class="mb-0">System administrator access only</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Registration Modal -->
+    <div class="modal fade" id="studentRegisterModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Student Registration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-info-circle me-2"></i>Registration Information</h6>
+                        <p class="mb-0">Student registration is currently limited to authorized individuals only. Please contact the system administrator for access.</p>
+                    </div>
+                    
+                    <div class="student-info">
+                        <h6><i class="fas fa-user-graduate me-2"></i>Currently Authorized Student</h6>
+                        <p class="mb-1"><strong>Name:</strong> Tebello Mokhahlane</p>
+                        <p class="mb-1"><strong>Student ID:</strong> STU2024001</p>
+                        <p class="mb-1"><strong>Email:</strong> tebello.mokhahlane@student.edu</p>
+                        <p class="mb-0"><strong>Program:</strong> Computer Science</p>
+                    </div>
+                    
+                    <form id="studentRegistrationForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" placeholder="Enter your first name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" placeholder="Enter your last name" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" placeholder="Enter your email address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Student ID</label>
+                            <input type="text" class="form-control" placeholder="Enter your student ID" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Program/Course</label>
+                            <select class="form-select" required>
+                                <option value="">Select your program</option>
+                                <option value="computer_science">Computer Science</option>
+                                <option value="information_tech">Information Technology</option>
+                                <option value="software_eng">Software Engineering</option>
+                                <option value="data_science">Data Science</option>
+                                <option value="cyber_security">Cyber Security</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" placeholder="Create a password" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" placeholder="Confirm your password" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">I agree to the <a href="#">Terms and Conditions</a></label>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" onclick="registerStudent()">Register as Student</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p class="mb-0">Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tebello Mokhahlane's credentials
+        const AUTHORIZED_STUDENT = {
+            studentId: "STU2024001",
+            password: "Tebello@2024",
+            name: "Tebello Mokhahlane",
+            email: "tebello.mokhahlane@student.edu",
+            program: "Computer Science"
+        };
+
+        // Login Functions
+        function loginAsStudent() {
+            event.preventDefault();
+            
+            const studentId = document.getElementById('studentIdInput').value;
+            const password = document.getElementById('studentPasswordInput').value;
+            
+            // Validate Tebello Mokhahlane's credentials
+            if (studentId === AUTHORIZED_STUDENT.studentId && password === AUTHORIZED_STUDENT.password) {
+                alert(`Welcome ${AUTHORIZED_STUDENT.name}! Logging in to Student Dashboard...`);
+                // In a real application, this would validate credentials and redirect
+                window.location.href = 'student.html';
+            } else {
+                alert('Invalid Student ID or Password. Only authorized student Tebello Mokhahlane can access the system.');
+                // Clear the form
+                document.getElementById('studentIdInput').value = '';
+                document.getElementById('studentPasswordInput').value = '';
+                document.getElementById('studentIdInput').focus();
+            }
+        }
+
+        function loginAsExaminer() {
+            event.preventDefault();
+            alert('Logging in as Examiner... Redirecting to Examiner Dashboard');
+            // In a real application, this would validate credentials and redirect
+            window.location.href = 'examiner.html';
+        }
+
+        function loginAsAdmin() {
+            event.preventDefault();
+            alert('Logging in as Admin... Redirecting to Admin Dashboard');
+            // In a real application, this would validate credentials and redirect
+            window.location.href = 'admin.html';
+        }
+
+        // Registration Function
+        function registerStudent() {
+            event.preventDefault();
+            
+            // Show message that registration is limited
+            alert('Student registration is currently limited to authorized individuals only. Please contact the system administrator for access.\n\nCurrently, only Tebello Mokhahlane (STU2024001) is authorized to use the system.');
+            
+            // Optionally, you can redirect to login modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('studentRegisterModal'));
+            modal.hide();
+            
+            // Show login modal with pre-filled credentials for convenience
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            
+            // Pre-fill the login form with Tebello's credentials for easy access
+            setTimeout(() => {
+                document.getElementById('studentIdInput').value = AUTHORIZED_STUDENT.studentId;
+                document.getElementById('studentPasswordInput').value = AUTHORIZED_STUDENT.password;
+            }, 500);
+        }
+
+        // Form submission handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevent form submissions from refreshing the page
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                });
+            });
+            
+            // Set focus on first input when modals open
+            const loginModal = document.getElementById('loginModal');
+            const registerModal = document.getElementById('studentRegisterModal');
+            
+            if (loginModal) {
+                loginModal.addEventListener('shown.bs.modal', function() {
+                    const firstInput = this.querySelector('input');
+                    if (firstInput) firstInput.focus();
+                });
+            }
+            
+            if (registerModal) {
+                registerModal.addEventListener('shown.bs.modal', function() {
+                    const firstInput = this.querySelector('input');
+                    if (firstInput) firstInput.focus();
+                });
+            }
+            
+            // Pre-fill student login form with placeholder text showing required credentials
+            const studentIdInput = document.getElementById('studentIdInput');
+            const studentPasswordInput = document.getElementById('studentPasswordInput');
+            
+            if (studentIdInput) {
+                studentIdInput.placeholder = `Enter ${AUTHORIZED_STUDENT.studentId}`;
+            }
+            if (studentPasswordInput) {
+                studentPasswordInput.placeholder = `Enter ${AUTHORIZED_STUDENT.password}`;
+            }
+        });
+
+        // Tab functionality for login modal
+        document.querySelectorAll('.login-tabs .nav-link').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.login-tabs .nav-link').forEach(t => {
+                    t.classList.remove('active');
+                });
+                // Add active class to clicked tab
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

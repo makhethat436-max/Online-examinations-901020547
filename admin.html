@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR MAKHETHA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            background-color: #f8f9fa;
+            min-height: calc(100vh - 56px);
+        }
+        .sidebar .nav-link {
+            color: #333;
+            padding: 12px 20px;
+            margin: 2px 0;
+            border-radius: 5px;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: #ffc107;
+            color: black;
+        }
+        .stats-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+        .system-health {
+            height: 120px;
+        }
+        .border-left-primary { border-left: 4px solid #4e73df !important; }
+        .border-left-success { border-left: 4px solid #1cc88a !important; }
+        .border-left-info { border-left: 4px solid #36b9cc !important; }
+        .border-left-warning { border-left: 4px solid #f6c23e !important; }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap"></i> Exam System
+            </a>
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-shield"></i> System Admin
+                    </a>
+                    <a class="nav-link" href="student.html">Student</a>
+                    <a class="nav-link" href="examiner.html">Examiner</a>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showTab('profile')">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="index.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 sidebar d-md-block">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showTab('dashboard')">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('manage_users')">
+                                <i class="fas fa-users me-2"></i>Manage Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('manage_subjects')">
+                                <i class="fas fa-book me-2"></i>Manage Subjects
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('manage_exams')">
+                                <i class="fas fa-clipboard-list me-2"></i>Manage Exams
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('system_reports')">
+                                <i class="fas fa-chart-pie me-2"></i>System Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('system_settings')">
+                                <i class="fas fa-cogs me-2"></i>System Settings
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showTab('profile')">
+                                <i class="fas fa-user me-2"></i>Profile
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Admin Dashboard</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Print</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stats-card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total Users
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">1,248</div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">+12%</span>
+                                                <small class="text-muted">Since last month</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stats-card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Active Exams
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">42</div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-danger">-5%</span>
+                                                <small class="text-muted">Since last week</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stats-card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                System Uptime
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">99.8%</div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">Stable</span>
+                                                <small class="text-muted">Last 30 days</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-server fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stats-card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Storage Usage
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">68%</div>
+                                            <div class="mt-2">
+                                                <div class="progress" style="height: 5px;">
+                                                    <div class="progress-bar bg-warning" style="width: 68%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-hdd fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Overview -->
+                    <div class="row">
+                        <!-- User Distribution -->
+                        <div class="col-xl-6 col-lg-6 mb-4">
+                            <div class="card shadow h-100">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-primary">User Distribution</h6>
+                                    <button class="btn btn-sm btn-primary" onclick="showTab('manage_users')">Manage Users</button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-pie">
+                                        <div class="text-center py-4">
+                                            <i class="fas fa-chart-pie fa-3x text-gray-300 mb-3"></i>
+                                            <p>User Distribution Chart</p>
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <div class="h5 mb-0">856</div>
+                                                    <small class="text-primary">Students</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="h5 mb-0">42</div>
+                                                    <small class="text-success">Examiners</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="h5 mb-0">5</div>
+                                                    <small class="text-warning">Admins</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Health -->
+                        <div class="col-xl-6 col-lg-6 mb-4">
+                            <div class="card shadow h-100">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">System Health</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="system-health d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <i class="fas fa-heartbeat fa-3x text-success mb-2"></i>
+                                            <h4 class="text-success">All Systems Operational</h4>
+                                            <small class="text-muted">Last checked: Just now</small>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3 text-center">
+                                        <div class="col-3">
+                                            <i class="fas fa-database text-success"></i>
+                                            <small>Database</small>
+                                        </div>
+                                        <div class="col-3">
+                                            <i class="fas fa-network-wired text-success"></i>
+                                            <small>Network</small>
+                                        </div>
+                                        <div class="col-3">
+                                            <i class="fas fa-shield-alt text-success"></i>
+                                            <small>Security</small>
+                                        </div>
+                                        <div class="col-3">
+                                            <i class="fas fa-backup text-success"></i>
+                                            <small>Backup</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity & Quick Stats -->
+                    <div class="row">
+                        <!-- Recent Activity -->
+                        <div class="col-lg-8 mb-4">
+                            <div class="card shadow">
+                                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                    <h6 class="m-0 font-weight-bold text-primary">Recent System Activity</h6>
+                                    <button class="btn btn-sm btn-outline-primary">View All</button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Time</th>
+                                                    <th>User</th>
+                                                    <th>Activity</th>
+                                                    <th>Details</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>2 minutes ago</td>
+                                                    <td>Dr. Sarah Examiner</td>
+                                                    <td>Created Exam</td>
+                                                    <td>Web Design Final Exam</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>15 minutes ago</td>
+                                                    <td>System</td>
+                                                    <td>Backup Completed</td>
+                                                    <td>Daily system backup</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1 hour ago</td>
+                                                    <td>John Student</td>
+                                                    <td>Completed Exam</td>
+                                                    <td>Database Midterm - Score: 85%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2 hours ago</td>
+                                                    <td>Admin</td>
+                                                    <td>User Registered</td>
+                                                    <td>New student: Alice Johnson</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3 hours ago</td>
+                                                    <td>System</td>
+                                                    <td>Security Scan</td>
+                                                    <td>No threats detected</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="col-lg-4 mb-4">
+                            <div class="card shadow">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Quick Statistics</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <small class="text-muted">Exams This Month</small>
+                                        <div class="h5">28</div>
+                                        <div class="progress mb-2" style="height: 5px;">
+                                            <div class="progress-bar bg-success" style="width: 75%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small class="text-muted">New Users This Week</small>
+                                        <div class="h5">34</div>
+                                        <div class="progress mb-2" style="height: 5px;">
+                                            <div class="progress-bar bg-info" style="width: 45%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small class="text-muted">System Load</small>
+                                        <div class="h5">42%</div>
+                                        <div class="progress mb-2" style="height: 5px;">
+                                            <div class="progress-bar bg-warning" style="width: 42%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small class="text-muted">Storage Available</small>
+                                        <div class="h5">32%</div>
+                                        <div class="progress mb-2" style="height: 5px;">
+                                            <div class="progress-bar bg-danger" style="width: 68%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="card shadow mt-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-outline-primary btn-sm" onclick="showTab('manage_users')">
+                                            <i class="fas fa-users me-2"></i>Manage Users
+                                        </button>
+                                        <button class="btn btn-outline-success btn-sm" onclick="showTab('system_reports')">
+                                            <i class="fas fa-chart-bar me-2"></i>Generate Reports
+                                        </button>
+                                        <button class="btn btn-outline-warning btn-sm" onclick="showTab('system_settings')">
+                                            <i class="fas fa-cogs me-2"></i>System Settings
+                                        </button>
+                                        <button class="btn btn-outline-info btn-sm">
+                                            <i class="fas fa-download me-2"></i>Backup System
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Users Tab -->
+                <div id="manage_users" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Manage Users</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                            <i class="fas fa-plus me-2"></i>Add New User
+                        </button>
+                    </div>
+
+                    <!-- User Statistics -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>1,248</h4>
+                                            <p>Total Users</p>
+                                        </div>
+                                        <i class="fas fa-users fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>856</h4>
+                                            <p>Students</p>
+                                        </div>
+                                        <i class="fas fa-user-graduate fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>42</h4>
+                                            <p>Examiners</p>
+                                        </div>
+                                        <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-danger">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>5</h4>
+                                            <p>Administrators</p>
+                                        </div>
+                                        <i class="fas fa-user-shield fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Users Table -->
+                    <div class="card shadow">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">User List</h6>
+                            <div class="input-group" style="width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search users...">
+                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>User ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Registration Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>901020496</td>
+                                            <td>Gladys Mokopotsa</td>
+                                            <td>kamo678mokopotsa@gmail.com</td>
+                                            <td><span class="badge bg-success">Student</span></td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>2024-01-15</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>EXM001</td>
+                                            <td>Dr. Ignatius Lerosa</td>
+                                            <td>lerosa987@gmail.com</td>
+                                            <td><span class="badge bg-warning">Examiner</span></td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>2024-01-10</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>ADM001</td>
+                                            <td>Mr. Makhetha</td>
+                                            <td>admin@examsystem.com</td>
+                                            <td><span class="badge bg-danger">Admin</span></td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>2024-01-01</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Subjects Tab -->
+                <div id="manage_subjects" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Manage Subjects</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
+                            <i class="fas fa-plus me-2"></i>Add New Subject
+                        </button>
+                    </div>
+
+                    <!-- Subject Statistics -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card text-white bg-info">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>24</h4>
+                                            <p>Total Subjects</p>
+                                        </div>
+                                        <i class="fas fa-book fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>18</h4>
+                                            <p>Active Subjects</p>
+                                        </div>
+                                        <i class="fas fa-check-circle fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>6</h4>
+                                            <p>Upcoming Subjects</p>
+                                        </div>
+                                        <i class="fas fa-clock fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subjects Table -->
+                    <div class="card shadow">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Subject List</h6>
+                            <div class="input-group" style="width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search subjects...">
+                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Subject Code</th>
+                                            <th>Subject Name</th>
+                                            <th>Department</th>
+                                            <th>Examiner</th>
+                                            <th>Students Enrolled</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>WD101</td>
+                                            <td>Web Design Principles</td>
+                                            <td>ICT</td>
+                                            <td>Dr. Sarah Johnson</td>
+                                            <td>45</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>DB202</td>
+                                            <td>Database Management</td>
+                                            <td>ICT</td>
+                                            <td>Prof. Mike Chen</td>
+                                            <td>38</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>NS301</td>
+                                            <td>Network Security</td>
+                                            <td>ICT</td>
+                                            <td>Dr. James Wilson</td>
+                                            <td>29</td>
+                                            <td><span class="badge bg-warning">Upcoming</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Exams Tab -->
+                <div id="manage_exams" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Manage Exams</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExamModal">
+                            <i class="fas fa-plus me-2"></i>Create New Exam
+                        </button>
+                    </div>
+
+                    <!-- Exam Statistics -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>42</h4>
+                                            <p>Total Exams</p>
+                                        </div>
+                                        <i class="fas fa-clipboard-list fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>15</h4>
+                                            <p>Active Exams</p>
+                                        </div>
+                                        <i class="fas fa-play-circle fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>8</h4>
+                                            <p>Upcoming Exams</p>
+                                        </div>
+                                        <i class="fas fa-clock fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-info">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>19</h4>
+                                            <p>Completed Exams</p>
+                                        </div>
+                                        <i class="fas fa-check-circle fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exams Table -->
+                    <div class="card shadow">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Exam Schedule</h6>
+                            <div class="input-group" style="width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search exams...">
+                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Exam ID</th>
+                                            <th>Exam Title</th>
+                                            <th>Subject</th>
+                                            <th>Examiner</th>
+                                            <th>Date & Time</th>
+                                            <th>Duration</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>EXM001</td>
+                                            <td>Web Design Final Exam</td>
+                                            <td>Web Design Principles</td>
+                                            <td>Dr. Ignatius Lerosa</td>
+                                            <td>2024-03-15 10:00</td>
+                                            <td>2 hours</td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>EXM002</td>
+                                            <td>Database Midterm</td>
+                                            <td>Database Management</td>
+                                            <td>Prof. Micah Mopeli</td>
+                                            <td>2024-03-20 14:00</td>
+                                            <td>1.5 hours</td>
+                                            <td><span class="badge bg-warning">Upcoming</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>EXM003</td>
+                                            <td>Network Security Quiz</td>
+                                            <td>Network Security</td>
+                                            <td>Dr. Justice</td>
+                                            <td>2024-03-10 09:00</td>
+                                            <td>1 hour</td>
+                                            <td><span class="badge bg-secondary">Completed</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Reports Tab -->
+                <div id="system_reports" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">System Reports & Analytics</h1>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary"><i class="fas fa-download me-2"></i>Export PDF</button>
+                            <button class="btn btn-outline-success"><i class="fas fa-file-excel me-2"></i>Export Excel</button>
+                        </div>
+                    </div>
+
+                    <!-- Report Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 mb-4">
+                            <div class="card border-left-primary shadow h-100">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                                        <h5>Performance Trends</h5>
+                                        <p class="text-muted">Student performance analytics</p>
+                                        <button class="btn btn-sm btn-primary">View Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="card border-left-success shadow h-100">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <i class="fas fa-user-check fa-2x text-success mb-3"></i>
+                                        <h5>User Activity</h5>
+                                        <p class="text-muted">Login and usage statistics</p>
+                                        <button class="btn btn-sm btn-success">View Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="card border-left-info shadow h-100">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <i class="fas fa-clipboard-check fa-2x text-info mb-3"></i>
+                                        <h5>Exam Statistics</h5>
+                                        <p class="text-muted">Exam completion rates</p>
+                                        <button class="btn btn-sm btn-info">View Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="card border-left-warning shadow h-100">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <i class="fas fa-exclamation-triangle fa-2x text-warning mb-3"></i>
+                                        <h5>System Logs</h5>
+                                        <p class="text-muted">Error and security logs</p>
+                                        <button class="btn btn-sm btn-warning">View Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Reports -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <h6 class="m-0 font-weight-bold text-primary">Monthly Performance Report</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center py-4">
+                                        <i class="fas fa-chart-bar fa-3x text-gray-300 mb-3"></i>
+                                        <p>Monthly performance charts and graphs would be displayed here</p>
+                                        <div class="row text-center mt-4">
+                                            <div class="col-3">
+                                                <div class="h5 text-primary">85%</div>
+                                                <small>Average Score</small>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="h5 text-success">92%</div>
+                                                <small>Completion Rate</small>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="h5 text-info">78%</div>
+                                                <small>Pass Rate</small>
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="h5 text-warning">45min</div>
+                                                <small>Avg. Time</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <h6 class="m-0 font-weight-bold text-primary">Quick Stats</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <small class="text-muted">Reports Generated This Month</small>
+                                        <div class="h5">24</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small class="text-muted">Data Accuracy</small>
+                                        <div class="h5">99.2%</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small class="text-muted">Last Report Update</small>
+                                        <div class="h6">2 hours ago</div>
+                                    </div>
+                                    <button class="btn btn-primary w-100">Generate New Report</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Settings Tab -->
+                <div id="system_settings" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">System Settings</h1>
+                        <button class="btn btn-success"><i class="fas fa-save me-2"></i>Save Settings</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header">
+                                    <h6 class="m-0 font-weight-bold text-primary">General Settings</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">System Name</label>
+                                        <input type="text" class="form-control" value="Online Examination System">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Institution Name</label>
+                                        <input type="text" class="form-control" value="Limkokwing University">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Time Zone</label>
+                                        <select class="form-select">
+                                            <option selected>UTC+2 (Central Africa Time)</option>
+                                            <option>UTC+0 (GMT)</option>
+                                            <option>UTC+1 (CET)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow mb-4">
+                                <div class="card-header">
+                                    <h6 class="m-0 font-weight-bold text-primary">Security Settings</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" checked>
+                                            <label class="form-check-label">Require Strong Passwords</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" checked>
+                                            <label class="form-check-label">Enable Two-Factor Authentication</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label">Auto-lock Inactive Accounts</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header">
+                                    <h6 class="m-0 font-weight-bold text-primary">Exam Settings</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Default Exam Duration (minutes)</label>
+                                        <input type="number" class="form-control" value="120">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Passing Percentage</label>
+                                        <input type="number" class="form-control" value="50">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" checked>
+                                            <label class="form-check-label">Show Results Immediately</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox">
+                                            <label class="form-check-label">Allow Exam Retakes</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <h6 class="m-0 font-weight-bold text-primary">Backup & Maintenance</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Auto Backup Frequency</label>
+                                        <select class="form-select">
+                                            <option>Daily</option>
+                                            <option selected>Weekly</option>
+                                            <option>Monthly</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Maintenance Window</label>
+                                        <select class="form-select">
+                                            <option>00:00 - 02:00</option>
+                                            <option selected>02:00 - 04:00</option>
+                                            <option>04:00 - 06:00</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-outline-primary w-100 mb-2">
+                                        <i class="fas fa-download me-2"></i>Backup Now
+                                    </button>
+                                    <button class="btn btn-outline-warning w-100">
+                                        <i class="fas fa-tools me-2"></i>Run Maintenance
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Tab -->
+                <div id="profile" class="tab-content">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Admin Profile</h1>
+                        <button class="btn btn-primary"><i class="fas fa-save me-2"></i>Update Profile</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card shadow">
+                                <div class="card-body text-center">
+                                    <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profile">
+                                    <h4>Mr. Makhetha</h4>
+                                    <p class="text-muted">System Administrator</p>
+                                    <p class="text-success">
+                                        <i class="fas fa-circle me-2"></i>Online
+                                    </p>
+                                    <button class="btn btn-outline-primary btn-sm w-100 mb-2">
+                                        <i class="fas fa-camera me-2"></i>Change Photo
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm w-100">
+                                        <i class="fas fa-lock me-2"></i>Change Password
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <h6 class="m-0 font-weight-bold text-primary">Personal Information</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">First Name</label>
+                                            <input type="text" class="form-control" value="Mr.">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" value="Makhetha">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" value="admin@examsystem.com">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" value="+266 1234 5678">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Department</label>
+                                        <input type="text" class="form-control" value="Information Communication Technology">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow mt-4">
+                                <div class="card-header">
+                                    <h6 class="m-0 font-weight-bold text-primary">System Information</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-4">
+                                            <div class="h5 text-primary">2,148</div>
+                                            <small>Total Actions</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="h5 text-success">1,856</div>
+                                            <small>Successful</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="h5 text-warning">292</div>
+                                            <small>Pending</small>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <small class="text-muted">Last Login: Today at 08:45 AM</small><br>
+                                        <small class="text-muted">Account Created: January 1, 2024</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <select class="form-select" required>
+                                <option value="">Select Role</option>
+                                <option value="student">Student</option>
+                                <option value="examiner">Examiner</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Add User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Subject Modal -->
+    <div class="modal fade" id="addSubjectModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Subject</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Subject Code</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Subject Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Department</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Add Subject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Exam Modal -->
+    <div class="modal fade" id="addExamModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Exam</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Exam Title</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Subject</label>
+                                <select class="form-select" required>
+                                    <option value="">Select Subject</option>
+                                    <option value="wd101">Web Design Principles</option>
+                                    <option value="db202">Database Management</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Exam Date</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Exam Time</label>
+                                <input type="time" class="form-control" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Create Exam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Update active state in sidebar
+            const navLinks = document.querySelectorAll('.sidebar .nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' && link.textContent.includes(
+                    tabName.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
+                )) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Initialize with dashboard tab
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('dashboard');
+        });
+    </script>
+</body>
+</html>
